@@ -1,6 +1,7 @@
 package org.example.bookshop.repository.impl;
 
 import java.util.List;
+import java.util.Optional;
 import org.example.bookshop.model.Book;
 import org.example.bookshop.repository.BookRepository;
 import org.hibernate.Session;
@@ -46,6 +47,14 @@ public class BookRepositoryImpl implements BookRepository {
             return session.createQuery("SELECT b FROM Book b", Book.class).getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Can't find all books", e);
+        }
+    }
+
+    @Override
+    public Optional<Book> findById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            Book book = session.get(Book.class, id);
+            return Optional.ofNullable(book);
         }
     }
 }
