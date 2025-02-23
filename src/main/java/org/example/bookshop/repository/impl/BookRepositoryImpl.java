@@ -51,6 +51,9 @@ public class BookRepositoryImpl implements BookRepository {
         try (Session session = sessionFactory.openSession()) {
             Book book = session.get(Book.class, id);
             return Optional.ofNullable(book);
+        } catch (Exception e) {
+            System.err.println("Error retrieving book with id: " + id + ". " + e.getMessage());
+            return Optional.empty();
         }
     }
 }
