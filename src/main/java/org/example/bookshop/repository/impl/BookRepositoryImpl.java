@@ -1,5 +1,6 @@
 package org.example.bookshop.repository.impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -51,9 +52,8 @@ public class BookRepositoryImpl implements BookRepository {
         try (Session session = sessionFactory.openSession()) {
             Book book = session.get(Book.class, id);
             return Optional.ofNullable(book);
-        } catch (Exception e) {
-            System.err.println("Error retrieving book with id: " + id + ". " + e.getMessage());
-            return Optional.empty();
+        } catch (EntityNotFoundException e) {
+            throw new RuntimeException("Error retrieving book with id: " + id, e);
         }
     }
 }
