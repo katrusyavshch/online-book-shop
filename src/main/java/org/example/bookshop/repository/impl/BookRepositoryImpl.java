@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.example.bookshop.exception.DataProcessingException;
 import org.example.bookshop.model.Book;
 import org.example.bookshop.repository.BookRepository;
 import org.hibernate.Session;
@@ -30,7 +31,7 @@ public class BookRepositoryImpl implements BookRepository {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't save book: " + book, e);
+            throw new DataProcessingException("Can't save book: " + book, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -43,7 +44,7 @@ public class BookRepositoryImpl implements BookRepository {
         try (Session session = sessionFactory.openSession()) {
             return session.createQuery("SELECT b FROM Book b", Book.class).getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can't find all books", e);
+            throw new DataProcessingException("Can't find all books", e);
         }
     }
 
@@ -52,8 +53,8 @@ public class BookRepositoryImpl implements BookRepository {
         try (Session session = sessionFactory.openSession()) {
             Book book = session.get(Book.class, id);
             return Optional.ofNullable(book);
-        } catch (EntityNotFoundException e) {
-            throw new RuntimeException("Error retrieving book with id: " + id, e);
+        } catch (Exception e) {
+            throw new DataProcessingException("Error retrieving book with id: " + id, e);
         }
     }
 }
