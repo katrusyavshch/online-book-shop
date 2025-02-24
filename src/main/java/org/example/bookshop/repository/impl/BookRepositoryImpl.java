@@ -1,6 +1,5 @@
 package org.example.bookshop.repository.impl;
 
-import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;

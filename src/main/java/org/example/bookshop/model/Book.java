@@ -28,7 +28,7 @@ public class Book {
     @Column(unique = true, nullable = false)
     private String isbn;
 
-    @Column( nullable = false)
+    @Column(nullable = false)
     private BigDecimal price;
 
     @Column
