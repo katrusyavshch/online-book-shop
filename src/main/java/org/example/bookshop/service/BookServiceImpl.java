@@ -1,6 +1,6 @@
 package org.example.bookshop.service;
 
-import jakarta.persistence.EntityNotFoundException;
+import org.example.bookshop.exception.EntityNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.bookshop.dto.BookDto;
