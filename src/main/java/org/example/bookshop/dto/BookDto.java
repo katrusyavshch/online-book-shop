@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 import lombok.Data;
+import org.example.bookshop.validation.Isbn;
 
 @Data
 public class BookDto {
@@ -17,7 +18,7 @@ public class BookDto {
     @NotBlank(message = "Author is required")
     private String author;
 
-    @NotBlank(message = "ISBN is required")
+    @Isbn
     private String isbn;
 
     @NotNull(message = "Price is required")
