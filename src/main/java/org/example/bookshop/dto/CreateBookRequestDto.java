@@ -9,9 +9,6 @@ import org.example.bookshop.validation.Isbn;
 
 @Data
 public class CreateBookRequestDto {
-    @NotNull(message = "ID is required")
-    private Long id;
-
     @NotBlank(message = "Title is required")
     private String title;
 
