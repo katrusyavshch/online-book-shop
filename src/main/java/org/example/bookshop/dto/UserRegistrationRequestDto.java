@@ -7,7 +7,9 @@ import org.example.bookshop.validation.FieldMatch;
 import org.hibernate.validator.constraints.Length;
 
 @Data
-@FieldMatch(first = "password", second = "repeatPassword")
+@FieldMatch(first = "password",
+        second = "repeatPassword",
+        message = "Passwords must match")
 public class UserRegistrationRequestDto {
     @NotBlank
     private String firstName;
@@ -27,6 +29,5 @@ public class UserRegistrationRequestDto {
     @Length(min = 8, max = 35)
     private String confirmPassword;
 
-    @NotBlank
     private String shippingAddress;
 }
