@@ -6,7 +6,7 @@ import org.example.bookshop.dto.UserResponseDto;
 import org.example.bookshop.exception.RegistrationException;
 import org.example.bookshop.mapper.UserMapper;
 import org.example.bookshop.model.User;
-import org.example.bookshop.repository.UserRepository;
+import org.example.bookshop.repository.user.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
