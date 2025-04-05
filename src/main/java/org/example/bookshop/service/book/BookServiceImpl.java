@@ -1,13 +1,14 @@
-package org.example.bookshop.service;
+package org.example.bookshop.service.book;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.example.bookshop.dto.BookDto;
-import org.example.bookshop.dto.CreateBookRequestDto;
+import org.example.bookshop.dto.book.BookDto;
+import org.example.bookshop.dto.book.BookDtoWithoutCategoryIds;
+import org.example.bookshop.dto.book.CreateBookRequestDto;
 import org.example.bookshop.exception.EntityNotFoundException;
 import org.example.bookshop.mapper.BookMapper;
 import org.example.bookshop.model.Book;
-import org.example.bookshop.repository.BookRepository;
+import org.example.bookshop.repository.book.BookRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -50,5 +51,13 @@ public class BookServiceImpl implements BookService {
     @Override
     public void deleteById(Long id) {
         bookRepository.deleteById(id);
+    }
+
+    @Override
+    public List<BookDtoWithoutCategoryIds> findByCategoryId(Long id, Pageable pageable) {
+        return bookRepository.findAllByCategoryId(id, pageable)
+                .stream()
+                .map(bookMapper::toBookWithoutCategoryId)
+                .toList();
     }
 }
