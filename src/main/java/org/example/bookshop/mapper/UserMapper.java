@@ -1,8 +1,8 @@
 package org.example.bookshop.mapper;
 
 import org.example.bookshop.config.MapperConfig;
-import org.example.bookshop.dto.UserRegistrationRequestDto;
-import org.example.bookshop.dto.UserResponseDto;
+import org.example.bookshop.dto.user.UserRegistrationRequestDto;
+import org.example.bookshop.dto.user.UserResponseDto;
 import org.example.bookshop.model.User;
 import org.mapstruct.Mapper;
 
