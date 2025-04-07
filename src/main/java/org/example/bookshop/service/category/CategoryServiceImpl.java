@@ -1,6 +1,5 @@
 package org.example.bookshop.service.category;
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.bookshop.dto.category.CategoryDto;
 import org.example.bookshop.dto.category.CategoryResponseDto;
@@ -8,6 +7,7 @@ import org.example.bookshop.exception.EntityNotFoundException;
 import org.example.bookshop.mapper.CategoryMapper;
 import org.example.bookshop.model.Category;
 import org.example.bookshop.repository.category.CategoryRepository;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +18,9 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryMapper categoryMapper;
 
     @Override
-    public List<CategoryResponseDto> findAll(Pageable pageable) {
+    public Page<CategoryResponseDto> findAll(Pageable pageable) {
         return categoryRepository.findAll(pageable)
-                .stream()
-                .map(categoryMapper::toCategoryResponseDto)
-                .toList();
+                .map(categoryMapper::toCategoryResponseDto);
     }
 
     @Override

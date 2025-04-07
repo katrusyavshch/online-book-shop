@@ -12,6 +12,7 @@ import org.example.bookshop.dto.category.CategoryResponseDto;
 import org.example.bookshop.service.book.BookService;
 import org.example.bookshop.service.category.CategoryService;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -39,15 +40,16 @@ public class CategoryController {
     @PostMapping
     @Operation(summary = "Create a new category",
             description = "Create a new category and save it to the DB")
-    public CategoryResponseDto createCategory(@RequestBody
-                                                  @Valid CategoryDto categoryDto) {
+    public CategoryResponseDto createCategory(
+            @RequestBody @Valid CategoryDto categoryDto
+    ) {
         return categoryService.save(categoryDto);
     }
 
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping
     @Operation(summary = "Get all categories", description = "Get a list of all categories")
-    public List<CategoryResponseDto> getAll(@ParameterObject @PageableDefault Pageable pageable) {
+    public Page<CategoryResponseDto> getAll(@ParameterObject @PageableDefault Pageable pageable) {
         return categoryService.findAll(pageable);
     }
 
