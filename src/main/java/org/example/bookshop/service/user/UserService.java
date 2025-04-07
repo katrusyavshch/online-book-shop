@@ -1,7 +1,7 @@
-package org.example.bookshop.service;
+package org.example.bookshop.service.user;
 
-import org.example.bookshop.dto.UserRegistrationRequestDto;
-import org.example.bookshop.dto.UserResponseDto;
+import org.example.bookshop.dto.user.UserRegistrationRequestDto;
+import org.example.bookshop.dto.user.UserResponseDto;
 import org.example.bookshop.exception.RegistrationException;
 
 public interface UserService {
