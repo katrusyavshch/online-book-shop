@@ -7,8 +7,8 @@ import org.example.bookshop.model.CartItem;
 import org.example.bookshop.model.ShoppingCart;
 import org.example.bookshop.model.User;
 import org.example.bookshop.repository.book.BookRepository;
-import org.example.bookshop.repository.cart_item.CartItemRepository;
-import org.example.bookshop.repository.shopping_cart.ShoppingCartRepository;
+import org.example.bookshop.repository.cartitem.CartItemRepository;
+import org.example.bookshop.repository.shoppingcart.ShoppingCartRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,8 +23,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Transactional(readOnly = true)
     public ShoppingCart getByUserId(Long userId) {
         return shoppingCartRepository.findByUserId(userId)
-                .orElseThrow(
-                () -> new EntityNotFoundException("Cart not found for user id: " + userId));
+                .orElseThrow(()
+                        -> new EntityNotFoundException("Cart not found for user id: " + userId));
     }
 
     @Override

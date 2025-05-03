@@ -2,7 +2,6 @@ package org.example.bookshop.dto.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.example.bookshop.model.ShoppingCart;
 import org.example.bookshop.validation.FieldMatch;
