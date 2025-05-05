@@ -1,8 +1,10 @@
 package org.example.bookshop.dto.cartitem;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class CartItemDto {
     private Long id;
     private Long bookId;

@@ -1,5 +1,6 @@
 package org.example.bookshop.service.shoppingcart;
 
+import java.nio.file.AccessDeniedException;
 import org.example.bookshop.model.ShoppingCart;
 import org.example.bookshop.model.User;
 
@@ -13,4 +14,6 @@ public interface ShoppingCartService {
     ShoppingCart createShoppingCart(User user);
 
     void removeCartItem(Long cartItemId);
+
+    void validateCartItemOwnership(Long userId, Long cartItemId) throws AccessDeniedException;
 }

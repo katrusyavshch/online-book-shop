@@ -9,18 +9,19 @@ import org.example.bookshop.model.User;
 import org.example.bookshop.repository.book.BookRepository;
 import org.example.bookshop.repository.cartitem.CartItemRepository;
 import org.example.bookshop.repository.shoppingcart.ShoppingCartRepository;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final ShoppingCartRepository shoppingCartRepository;
     private final CartItemRepository cartItemRepository;
     private final BookRepository bookRepository;
 
     @Override
-    @Transactional(readOnly = true)
     public ShoppingCart getByUserId(Long userId) {
         return shoppingCartRepository.findByUserId(userId)
                 .orElseThrow(()
@@ -28,11 +29,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    @Transactional
     public void addBook(Long userId, Long bookId, int quantity) {
         ShoppingCart shoppingCart = getByUserId(userId);
         Book book = bookRepository.findById(bookId).orElseThrow(
-                () -> new EntityNotFoundException("Book not found for user id: " + userId)
+                () -> new EntityNotFoundException("Book not found")
         );
         CartItem cartItem = new CartItem();
         cartItem.setShoppingCart(shoppingCart);
@@ -42,7 +42,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    @Transactional
     public void updateCartItem(Long cartItemId, int quantity) {
         CartItem cartItem = cartItemRepository.findById(cartItemId)
                 .orElseThrow(
@@ -53,7 +52,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    @Transactional
     public ShoppingCart createShoppingCart(User user) {
         ShoppingCart cart = new ShoppingCart();
         cart.setUser(user);
@@ -63,5 +61,18 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public void removeCartItem(Long cartItemId) {
         cartItemRepository.deleteById(cartItemId);
+    }
+
+    @Override
+    public void validateCartItemOwnership(Long userId, Long cartItemId)
+            throws AccessDeniedException {
+        CartItem cartItem = cartItemRepository.findById(cartItemId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Cart item not found: " + cartItemId));
+
+        if (!cartItem.getShoppingCart().getUser().getId().equals(userId)) {
+            throw new AccessDeniedException("Cart item with id " + cartItemId
+                    + " doesn't belong to user " + userId);
+        }
     }
 }
