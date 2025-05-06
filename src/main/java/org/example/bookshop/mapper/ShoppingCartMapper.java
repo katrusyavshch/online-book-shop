@@ -6,7 +6,7 @@ import org.example.bookshop.model.ShoppingCart;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(config = MapperConfig.class)
+@Mapper(config = MapperConfig.class, uses = CartItemMapper.class)
 public interface ShoppingCartMapper {
     ShoppingCartDto toDto(ShoppingCart shoppingCart);
 

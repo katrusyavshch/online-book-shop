@@ -1,15 +1,17 @@
 package org.example.bookshop.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.bookshop.dto.cartitem.CartItemDto;
+import org.example.bookshop.dto.cartitem.UpdateCartItemRequestDto;
 import org.example.bookshop.dto.shoppingcart.ShoppingCartDto;
-import org.example.bookshop.mapper.ShoppingCartMapper;
 import org.example.bookshop.model.User;
 import org.example.bookshop.service.shoppingcart.ShoppingCartService;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +28,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/cart")
 public class ShoppingCartController {
     private final ShoppingCartService shoppingCartService;
-    private final ShoppingCartMapper shoppingCartMapper;
 
     @Operation(summary = "Get a shopping cart", description = "Find a shopping cart for a user")
     @PreAuthorize("hasRole('USER')")
@@ -50,9 +51,15 @@ public class ShoppingCartController {
     @Operation(summary = "Update cart item", description = "Update cart item for a user")
     @PreAuthorize("hasRole('USER')")
     @PutMapping("/items/{id}")
-    public ShoppingCartDto updateCartItem(@PathVariable Long id,
-                               @RequestBody CartItemDto cartItemDto) {
-        return shoppingCartService.updateCartItem(id, cartItemDto.getQuantity());
+    public ShoppingCartDto updateCartItem(
+            Authentication authentication,
+            @Parameter(description = "Cart item id to update", example = "42")
+            @PathVariable Long cartItemId,
+            @RequestBody @Valid UpdateCartItemRequestDto cartItemRequestDto
+    ) {
+        User currentUser = (User) authentication.getPrincipal();
+        return shoppingCartService
+                .updateCartItem(currentUser.getId(), cartItemId, cartItemRequestDto);
     }
 
     @Operation(summary = "Remove cart item", description = "Remove cart item for a user")
