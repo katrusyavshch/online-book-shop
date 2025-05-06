@@ -30,4 +30,5 @@ public class UserRegistrationRequestDto {
     private String confirmPassword;
 
     private String shippingAddress;
+
 }
