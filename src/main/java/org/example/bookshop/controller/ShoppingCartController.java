@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.example.bookshop.dto.cartitem.CartItemDto;
 import org.example.bookshop.dto.shoppingcart.ShoppingCartDto;
 import org.example.bookshop.mapper.ShoppingCartMapper;
-import org.example.bookshop.model.ShoppingCart;
 import org.example.bookshop.model.User;
 import org.example.bookshop.service.shoppingcart.ShoppingCartService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Shopping cart management", description = "Endpoint for managing shopping carts")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/cart")
+@RequestMapping("/cart")
 public class ShoppingCartController {
     private final ShoppingCartService shoppingCartService;
     private final ShoppingCartMapper shoppingCartMapper;
@@ -33,28 +32,27 @@ public class ShoppingCartController {
     @PreAuthorize("hasRole('USER')")
     @GetMapping
     public ShoppingCartDto getCart(@AuthenticationPrincipal User user) {
-        ShoppingCart cart = shoppingCartService.getByUserId(user.getId());
-        return shoppingCartMapper.toDto(cart);
+        return shoppingCartService.getByUserId(user.getId());
     }
 
     @Operation(summary = "Add a book to cart item",
             description = "Add a book to cart item for a user")
     @PreAuthorize("hasRole('USER')")
     @PostMapping
-    public void addBookToCart(
+    public ShoppingCartDto addBookToCart(
             @AuthenticationPrincipal User user,
             @RequestBody @Valid CartItemDto cartItemDto
     ) {
-        shoppingCartService.addBook(user.getId(), cartItemDto.getBookId(),
+        return shoppingCartService.addBook(user.getId(), cartItemDto.getBookId(),
                 cartItemDto.getQuantity());
     }
 
     @Operation(summary = "Update cart item", description = "Update cart item for a user")
     @PreAuthorize("hasRole('USER')")
     @PutMapping("/items/{id}")
-    public void updateCartItem(@PathVariable Long id,
+    public ShoppingCartDto updateCartItem(@PathVariable Long id,
                                @RequestBody CartItemDto cartItemDto) {
-        shoppingCartService.updateCartItem(id, cartItemDto.getQuantity());
+        return shoppingCartService.updateCartItem(id, cartItemDto.getQuantity());
     }
 
     @Operation(summary = "Remove cart item", description = "Remove cart item for a user")

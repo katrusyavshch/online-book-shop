@@ -3,7 +3,6 @@ package org.example.bookshop.dto.user;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import org.example.bookshop.model.ShoppingCart;
 import org.example.bookshop.validation.FieldMatch;
 import org.hibernate.validator.constraints.Length;
 
@@ -32,5 +31,4 @@ public class UserRegistrationRequestDto {
 
     private String shippingAddress;
 
-    private ShoppingCart shoppingCart;
 }
