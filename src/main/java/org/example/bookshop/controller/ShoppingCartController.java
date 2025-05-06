@@ -10,6 +10,7 @@ import org.example.bookshop.dto.cartitem.UpdateCartItemRequestDto;
 import org.example.bookshop.dto.shoppingcart.ShoppingCartDto;
 import org.example.bookshop.model.User;
 import org.example.bookshop.service.shoppingcart.ShoppingCartService;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Shopping cart management", description = "Endpoint for managing shopping carts")
@@ -51,6 +53,7 @@ public class ShoppingCartController {
     @Operation(summary = "Update cart item", description = "Update cart item for a user")
     @PreAuthorize("hasRole('USER')")
     @PutMapping("/items/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public ShoppingCartDto updateCartItem(
             Authentication authentication,
             @Parameter(description = "Cart item id to update", example = "42")
