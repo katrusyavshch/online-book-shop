@@ -3,14 +3,11 @@ package org.example.bookshop.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.example.bookshop.dto.order.CreateOrderRequestDto;
 import org.example.bookshop.dto.order.OrderDto;
 import org.example.bookshop.dto.order.OrderItemDto;
 import org.example.bookshop.dto.order.PatchOrderDto;
-import org.example.bookshop.exception.EntityNotFoundException;
-import org.example.bookshop.model.Order;
 import org.example.bookshop.model.User;
 import org.example.bookshop.repository.order.OrderItemRepository;
 import org.example.bookshop.service.order.OrderService;
@@ -73,10 +70,12 @@ public class OrderController {
         return orderService.changedStatus(id, requestDto);
     }
 
-    @Operation(summary = "Get all OrderItems", description = "Retrieve all OrderItems for a specific order)")
+    @Operation(summary = "Get all OrderItems",
+            description = "Retrieve all OrderItems for a specific order)")
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/{orderId}/items")
-    public List<OrderItemDto> getOrderItemsByOrderId( @PathVariable(name = "orderId") Long orderId) {
+    public List<OrderItemDto> getOrderItemsByOrderId(
+            @PathVariable(name = "orderId") Long orderId) {
         return orderItemRepository.getOrderItemsByOrderId(orderId);
     }
 
