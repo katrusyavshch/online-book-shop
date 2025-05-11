@@ -15,6 +15,7 @@ import org.example.bookshop.model.OrderItem;
 import org.example.bookshop.model.ShoppingCart;
 import org.example.bookshop.model.Status;
 import org.example.bookshop.model.User;
+import org.example.bookshop.repository.order.OrderItemRepository;
 import org.example.bookshop.repository.order.OrderRepository;
 import org.example.bookshop.repository.shoppingcart.ShoppingCartRepository;
 import org.example.bookshop.repository.user.UserRepository;
@@ -30,6 +31,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderMapper orderMapper;
     private final OrderRepository orderRepository;
     private final OrderItemMapper orderItemMapper;
+    private final OrderItemRepository orderItemRepository;
 
     @Override
     public OrderDto save(Long userId, CreateOrderRequestDto orderDto) {
@@ -74,13 +76,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderItemDto getItemByIdInOrder(Long orderId, Long itemId, Long userId) {
-        OrderDto order = getOrderById(orderId, userId);
-        return order.getOrderItems()
-                .stream()
-                .filter(item -> item.getId().equals(itemId))
-                .findFirst()
-                .orElseThrow(() -> new EntityNotFoundException(String.format(
-                        "Can`t find order %s or item %s", orderId, itemId)));
+        OrderItem item = orderItemRepository
+                .findByIdAndOrderIdAndOrderUserId(itemId, orderId, userId)
+                .orElseThrow(() -> new EntityNotFoundException("Order item not found"));
+
+        return orderItemMapper.toDto(item);
     }
 
     @Override

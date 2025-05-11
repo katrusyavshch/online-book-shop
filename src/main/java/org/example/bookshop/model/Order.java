@@ -51,6 +51,5 @@ public class Order {
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
             orphanRemoval = true
     )
-    @Column(nullable = false)
     private Set<OrderItem> orderItems = new HashSet<>();
 }
