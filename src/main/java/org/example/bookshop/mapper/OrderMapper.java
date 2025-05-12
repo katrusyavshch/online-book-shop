@@ -1,7 +1,6 @@
 package org.example.bookshop.mapper;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.example.bookshop.config.MapperConfig;
@@ -23,7 +22,6 @@ public interface OrderMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(source = "cartItems", target = "total", qualifiedByName = "calculateTotal")
-    @Mapping(target = "orderDate", expression = "java(getLocalDateTimeNow())")
     @Mapping(source = "cartItems", target = "orderItems", qualifiedByName = "getOrderItems")
     @Mapping(source = "orderRequestDto.shippingAddress", target = "shippingAddress")
     Order toEntity(
@@ -40,11 +38,6 @@ public interface OrderMapper {
                         .multiply(BigDecimal.valueOf(item.getQuantity()))
                 )
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
-
-    @Named("getLocalDateTimeNow")
-    default LocalDateTime getLocalDateTimeNow() {
-        return LocalDateTime.now();
     }
 
     @Named("getOrderItems")

@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Getter
@@ -40,7 +41,7 @@ public class Order {
     @Column(nullable = false)
     private BigDecimal total;
 
-    @Column(nullable = false)
+    @CreationTimestamp
     private LocalDateTime orderDate;
 
     @Column(nullable = false)
