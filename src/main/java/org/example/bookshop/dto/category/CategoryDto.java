@@ -1,11 +1,11 @@
 package org.example.bookshop.dto.category;
 
-import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class CategoryDto {
-    @NotBlank
     private String name;
 
     private String description;
