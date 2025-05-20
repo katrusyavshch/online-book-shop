@@ -4,7 +4,7 @@ services:
   mysqldb:
     image: mysql:8.2.0
     restart: unless-stopped
-    env_file: .env.properties
+    env_file: .env
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
@@ -22,7 +22,7 @@ services:
     restart: on-failure
     image: bookshop
     build: .
-    env_file: .env.properties
+    env_file: .env
     ports:
       - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
       - ${DEBUG_PORT}:${DEBUG_PORT}
