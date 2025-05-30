@@ -1,5 +1,5 @@
 # Stage 1: Build the application
-FROM openjdk:17-jdk-alpine AS builder
+FROM openjdk:17-jdk-slim AS builder
 WORKDIR application
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} application.jar
